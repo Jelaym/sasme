@@ -55,7 +55,7 @@ public class AgregarDoc extends HttpServlet {
                     }
                     String msj = doc.insertaDoctor(nombre, contraseña, usuario,dias,Sta,End,TypeDoc,genero, mail,celular,permisos);
                     out.println("<html>");
-                    out.println("<script>alert('doctor "+msj+"');location.href = 'consultarDoc.jsp' ;</script>");
+                    out.println("<script>location.href = 'consultarDoc.jsp' ;</script>");
                     out.println("</html>");
                 }else{
                     out.println("<html>");
@@ -68,6 +68,7 @@ public class AgregarDoc extends HttpServlet {
                 out.println("</html>");
             }
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

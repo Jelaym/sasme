@@ -83,13 +83,11 @@
                     
             %>   
                 <a class="mdl-navigation__link" href="consultarDoc.jsp">Doctores</a>
-                <a class="mdl-navigation__link" href="">Bitácoras</a>
-            <%        
+           <%        
                 }else if(Tipo.equals("Doctor")){
             %>
                 <a class="mdl-navigation__link" href="consulta.jsp">Consulta Médica</a>
                 <a class="mdl-navigation__link" href="consultaExp.jsp">Expedientes</a>
-                <a class="mdl-navigation__link" href="">Bitácoras</a>
             <%
                 }
             %>

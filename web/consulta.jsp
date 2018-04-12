@@ -1,4 +1,4 @@
-<%-- 
+ <%-- 
     Document   : consulta
     Created on : Dec 6, 2017, 9:51:12 PM
     Author     : Sonia
@@ -41,6 +41,13 @@
     <link rel="canonical" href="http://www.example.com/">
     -->
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"  crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"  crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans|Libre+Baskerville|Rubik" rel="stylesheet">
+        
+    
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
@@ -75,6 +82,7 @@
         <header class="demo-drawer-header">
           <div class="demo-avatar-dropdown">
             <span><%out.print("<a>"+usuario+"</a>");%></span>
+            
             <div class="mdl-layout-spacer"></div>
           </div>
         </header>
@@ -84,15 +92,13 @@
                     
             %>   
                 <a class="mdl-navigation__link" href="consultarDoc.jsp">Doctores</a>
-                <a class="mdl-navigation__link" href="">Bitácoras</a>
-                <a class="mdl-navigation__link" href="">Estadísticas</a>
+                <a class="mdl-navigation__link" href="graficas.jsp">Estadísticas</a>
             <%        
                 }else if(Tipo.equals("Doctor")){
             %>
                 <a class="mdl-navigation__link" href="consulta.jsp">Consulta Médica</a>
                 <a class="mdl-navigation__link" href="consultaExp.jsp">Expedientes</a>
-                <a class="mdl-navigation__link" href="">Bitácoras</a>
-                <a class="mdl-navigation__link" href="">Estadísticas</a>
+                <a class="mdl-navigation__link" href="graficas.jsp">Estadísticas</a>
             <%
                 }
             %>
@@ -104,6 +110,7 @@
       <main class="mdl-layout__content mdl-color--grey-100">
           <form action="nConsulta" method="post">
               <br>
+              <%out.print("<input type='hidden' name='DoctorN' value='"+usuario+"'>");%>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--2-col ">
                   <input class="mdl-textfield__input" type="text" id="nombreP" name="nombreP">
                   <label class="mdl-textfield__label" for="nombreP">Nombre del paciente</label>

@@ -12,7 +12,7 @@
     String usBus = request.getParameter("idBus");
     cDoctor docBus = new cDoctor();
     String[] datosBus = docBus.buscaDoctor(usBus);
-    
+    String[] datosCon = docBus.buscaContactoDoctor(usBus);
 %>
 <html lang="en">
   <head>
@@ -102,6 +102,7 @@
         </nav>
       </div>
       <main class="mdl-layout__content mdl-color--grey-100">
+          <form name="datosMod" action="ModificarDoc" method="post">
           <%
                 if(Tipo.equals("Jefe_Area")&& usBus!=null){
                     
@@ -117,7 +118,7 @@
                 <!--Radio Button con Material Design Lite-->
                 <a>Genero</a>&nbsp;
                 <%
-                    if(datosBus[7].equals("H")){
+                    if(datosBus[7].equals("Masculino")){
                 %>
                     <label class = "mdl-radio mdl-js-radio mdl-js-ripple-effect" for = "opcion1">
                   <input type = "radio" id = "opcion1" name = "generoDoc" value="Masculino" 
@@ -149,45 +150,62 @@
                 %>
                <br>
                <!--Combo box con Material Design Lite-->
-               
                     
                         <%
                             if(datosBus[4].equals("8")&&datosBus[5].equals("14")){
                             %>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-                                <input type="text" value="" class="mdl-textfield__input" id="Turno" readonly>
-                                <input type="hidden" value="MAT" name="Turno" readonly>
-                                <label class="mdl-textfield__label" for="Turno">Turno</label>
-                                <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="Turno">
-                                <li class="mdl-menu__item" data-val="MAT">Matutino</li>
-                                <li class="mdl-menu__item" data-val="VES">Vespertino</li>
-                                </ul>
+                                    <input type="text" value="" class="mdl-textfield__input" id="Turno" readonly disabled="true">
+                                    <input type="hidden" value="" name="Turno" disabled="true">
+                                    <label class="mdl-textfield__label" for="Turno">Turno</label>
+                                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="Turno">
+                                        <li class="mdl-menu__item" data-val="MAT" data-selected="true">Matutino</li>
+                                        <li class="mdl-menu__item" data-val="VES">Vespertino</li>
+                                    </ul>
+                                </div>
                             <%    
                             }else{
                             %>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-                                <input type="text" value="" class="mdl-textfield__input" id="Turno" readonly>
-                                <input type="hidden" value="MAT" name="Turno" readonly>
-                                <label class="mdl-textfield__label" for="Turno">Turno</label>
-                                <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="Turno">
-                                <li class="mdl-menu__item" data-val="MAT">Matutino</li>
-                                <li class="mdl-menu__item" data-val="VES">Vespertino</li>
-                                </ul>
+                                    <input type="text" value="" class="mdl-textfield__input" id="Turno" readonly disabled="true">
+                                    <input type="hidden" value="" name="Turno" >
+                                    <label class="mdl-textfield__label" for="Turno">Turno</label>
+                                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="Turno">
+                                        <li class="mdl-menu__item" data-val="MAT">Matutino</li>
+                                        <li class="mdl-menu__item" data-val="VES"  data-selected="true" >Vespertino</li>
+                                    </ul>
+                                </div>
                             <%
                             }
                         %>
-                        
-                    
-                </div>
-               &nbsp; 
+               &nbsp;
+               
                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-                    <input type="text" value="" class="mdl-textfield__input" id="TypeDoc" readonly>
+                    <input type="text" value="" class="mdl-textfield__input" id="TypeDoc" readonly disabled="true">
                     <input type="hidden" value="" name="TypeDoc">
                     <label class="mdl-textfield__label" for="TypeDoc">Tipo de doctor</label>
                     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="TypeDoc">
-                        <li class="mdl-menu__item" data-val="General">General</li>
+                        <%
+                            if(datosBus[6].equals("General")){
+                        %>
+                        <li class="mdl-menu__item" data-val="General" data-selected="true">General</li>
                         <li class="mdl-menu__item" data-val="Dentista">Dentista</li>
                         <li class="mdl-menu__item" data-val="Pasante">Pasante</li>
+                        <%
+                            }else if(datosBus[6].equals("Dentista")){
+                        %>
+                        <li class="mdl-menu__item" data-val="General">General</li>
+                        <li class="mdl-menu__item" data-val="Dentista" data-selected="true">Dentista</li>
+                        <li class="mdl-menu__item" data-val="Pasante">Pasante</li>
+                        <%
+                            }else{
+                        %>
+                        <li class="mdl-menu__item" data-val="General">General</li>
+                        <li class="mdl-menu__item" data-val="Dentista">Dentista</li>
+                        <li class="mdl-menu__item" data-val="Pasante" data-selected="true">Pasante</li>
+                        <%
+                            }
+                        %>
                     </ul>
                 </div>
                <br>
@@ -197,31 +215,31 @@
                     <tr>
                        <td> 
                           <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="lunes">
-                            <input type="checkbox" id="lunes" class="mdl-checkbox__input" name="dias" value="lunes"/>
+                            <input type="checkbox" id="lunes" class="mdl-checkbox__input" name="dias" value="lunes" disabled="true" <%=datosBus[3].contains("Lunes")? "checked" : ""%>/>
                             <span class="mdl-checkbox__label">Lunes</span>
                           </label>
                        </td>
                        <td>
                           <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="martes">
-                            <input type="checkbox" id="martes" class="mdl-checkbox__input" name="dias" value="martes"/>
+                            <input type="checkbox" id="martes" class="mdl-checkbox__input" name="dias" value="martes" disabled="true" <%=datosBus[3].contains("Martes")? "checked" : ""%>/>
                             <span class="mdl-checkbox__label">Martes</span> 
                           </label>	  
                        </td>
                        <td>
                           <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="Miercoles">
-                            <input type="checkbox" id="Miercoles" class="mdl-checkbox__input" name="dias" value="Miercoles"/>
+                            <input type="checkbox" id="Miercoles" class="mdl-checkbox__input" name="dias" value="Miercoles" disabled="true" <%=datosBus[3].contains("Miercoles")? "checked" : ""%>/>
                             <span class="mdl-checkbox__label">Miercoles</span> 
                           </label>   
                        </td>
                        <td>
                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="jueves">
-                            <input type="checkbox" id="jueves" class="mdl-checkbox__input" name="dias" value="jueves"/>
+                            <input type="checkbox" id="jueves" class="mdl-checkbox__input" name="dias" value="jueves" disabled="true"<%=datosBus[3].contains("Jueves")? "checked" : ""%>/>
                             <span class="mdl-checkbox__label">Jueves</span> 
                           </label>
                        </td>
                        <td>
                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="Viernes">
-                            <input type="checkbox" id="Viernes" class="mdl-checkbox__input" name="dias" value="Viernes"/>
+                            <input type="checkbox" id="Viernes" class="mdl-checkbox__input" name="dias" value="Viernes" disabled="true"<%=datosBus[3].contains("Viernes")? "checked" : ""%>/>
                             <span class="mdl-checkbox__label">Viernes</span> 
                           </label>
                        </td>
@@ -233,7 +251,7 @@
                     <tr>
                         <td>
                             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="ConGen">
-                            <input type="checkbox" id="ConGen" class="mdl-checkbox__input" name="permisos" value="1"/>
+                            <input type="checkbox" id="ConGen" class="mdl-checkbox__input" name="permisos" value="1" disabled="true" <%=datosBus[8].contains("1")? "checked" : ""%>/>
                             <span class="mdl-checkbox__label">Generar Consultas Generales: </span> 
                           </label>
                         </td>
@@ -241,7 +259,7 @@
                     <tr>
                         <td>
                             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="ConDen">
-                            <input type="checkbox" id="ConDen" class="mdl-checkbox__input" name="permisos" value="2"/>
+                            <input type="checkbox" id="ConDen" class="mdl-checkbox__input" name="permisos" value="2" disabled="true" <%=datosBus[8].contains("2")? "checked" : ""%>/>
                             <span class="mdl-checkbox__label">Generar Consultas Dentales: </span> 
                           </label>
                         </td>
@@ -249,7 +267,7 @@
                     <tr>
                         <td>
                             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="AccExp">
-                            <input type="checkbox" id="AccExp" class="mdl-checkbox__input" name="permisos" value="3"/>
+                            <input type="checkbox" id="AccExp" class="mdl-checkbox__input" name="permisos" value="3" disabled="true" <%=datosBus[8].contains("3")? "checked" : ""%>/>
                             <span class="mdl-checkbox__label">Accesar a Expedientes: </span> 
                           </label>
                         </td>
@@ -257,7 +275,7 @@
                     <tr>
                         <td>
                             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="ManExp">
-                            <input type="checkbox" id="ManExp" class="mdl-checkbox__input" name="permisos" value="4"/>
+                            <input type="checkbox" id="ManExp" class="mdl-checkbox__input" name="permisos" value="4" disabled="true" <%=datosBus[8].contains("4")? "checked" : ""%>/>
                             <span class="mdl-checkbox__label">Manejar información de expedientes: </span> 
                           </label>
                         </td>
@@ -265,7 +283,7 @@
                     <tr>
                         <td>
                             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="PerApp">
-                            <input type="checkbox" id="PerApp" class="mdl-checkbox__input" name="permisos" value="5"/>
+                            <input type="checkbox" id="PerApp" class="mdl-checkbox__input" name="permisos" value="5" disabled="true" <%=datosBus[8].contains("5")? "checked" : ""%>/>
                             <span class="mdl-checkbox__label">Utilizar aplicación movil: </span> 
                           </label>
                         </td>
@@ -274,13 +292,20 @@
                 <br>
                 &nbsp;<p>Contacto</p>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
-                  <input class="mdl-textfield__input" type="text" id="correo" name="correo">
+                    <input class="mdl-textfield__input" type="text" id="correo" name="correo" value="<%=datosCon[0]%>" disabled="true">
                   <label class="mdl-textfield__label" for="correo">Correo</label>
                 </div> &nbsp;
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
-                  <input class="mdl-textfield__input" type="text" id="celular" name="celular">
+                  <input class="mdl-textfield__input" type="text" id="celular" name="celular" value="<%=datosCon[1]%>" disabled="true">
                   <label class="mdl-textfield__label" for="celular">Celular</label>
                 </div> &nbsp;<br>
+                
+                <button id="Elim" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                    Eliminar
+                  </button>
+                <button id="Modi" type="submit" style="visibility:hidden" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                    Modificar
+                </button>
                 
             <%        
                 }else if(Tipo.equals("Jefe_Area")){
@@ -289,8 +314,25 @@
                     response.sendRedirect("index.html");
                 }
             %>
+            
+          </form>
+            
+            <button id="Mod0" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="ocultar();">
+                   Modificar
+                  </button>
+             &nbsp;
+             <button  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="location.href='consultarDoc.jsp'">
+                    Regresar
+                  </button>
       </main>
     </div>
-    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+            <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+            <script>
+                function ocultar(){document.getElementById('Mod0').style.visibility='hidden';
+                    document.getElementById("Modi").style.visibility='visible';
+                    document.getElementsByName('datosMod').disabled="false";
+    };
+            </script>
+    <script src="getmdl-select-master/getmdl-select.min.js" type="text/javascript"></script>
   </body>
 </html>

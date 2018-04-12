@@ -1,3 +1,9 @@
+<%-- 
+    Document   : modifyPac
+    Created on : 11/04/2018, 10:59:14 PM
+    Author     : Touchier
+--%>
+
 <%@page contentType="text/html" pageEncoding="ISO-8859-1" session="true"%>
 <%@page import="java.sql.ResultSet,Doctor.cDoctor"%>
 <%
@@ -39,6 +45,12 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
     <link rel="stylesheet" href="styles.css">
     <link href="Estilo/reaparecer.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"  crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"  crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans|Libre+Baskerville|Rubik" rel="stylesheet">
+    
     <style>
     #view-source {
       position: fixed;
@@ -48,6 +60,21 @@
       margin-right: 40px;
       margin-bottom: 40px;
       z-index: 900;
+    }
+    form{
+        margin-left:10%;
+    }
+    p{
+        color: #0077b3; 
+        font-size: 18px;
+    }
+    h1{
+        color: #006699;
+        
+    }
+    .ancho{
+        text-align: center;
+        width: 100%;
     }
     </style>
   </head>
@@ -94,27 +121,32 @@
         </nav>
       </div>
       <main class="mdl-layout__content mdl-color--grey-100">
-          <div>
-            <div>
-                <select id="tipoUsuario" name="tipoUsuario" onChange="tipoIdentificador(this.value)">
-                    <option value="0"> -Elige Tipo de Paciente- </option>
-                    <option value="Estudiante"> Estudiante </option>
-                    <option value="Docente"> Docente </option>
-                    <option value="Externo"> Externo </option>
-                </select>
-            </div>
-            <div id="parte2" class="esconde">
-                <form name="formu" id="formu" action="buscaExp.jsp" method="post">
-                    <!--<input type="text" id="nombrePac" placeholder="Nombre de Paciente" name="nombrePac" class="" required/>-->
-                    <input type="text" id="identific" placeholder="NSS" name="nss" class="" required/>
-                    
-                    <input type="submit" name="pedidoExp" value="Buscar Expediente"/>
-                </form>
-            </div>
-        </div>
-          <a href="agregarPac.jsp"> Registrar Paciente </a>
-        <script src="js/tipoUsuario.js" type="text/javascript"></script>
-        <script src="js/Expedientes.js" type="text/javascript"></script>
+        <%@page import="serv.cPacientes"%>
+        <%
+            request.setCharacterEncoding("UTF-8");
+            
+            cPacientes traeDatos= new cPacientes();
+            
+            String nss= request.getParameter("nss");
+            String datos[]= traeDatos.buscaPaciente(nss);
+            
+        %>
+        <div class="ancho"><h1> Modifica datos de un Paciente </h1></div>
+        
+        <form name="formu" id="formu" method="post" action="modificaPac.jsp">
+            <p>Nombre del Paciente:</p> <input type="text" class="mdl-textfield__input" value="<%=datos[1]%>" placeholder="Nombre del Paciente" name="nombre"/>
+            <br/><br/>
+            <p>Edad:</p> <input type="text" class="mdl-textfield__input" value="<%=datos[3]%>" placeholder="Edad" name="edad"/>
+            <br/><br/>
+            <p>Institucion:</p> <input type="text" class="mdl-textfield__input" value="<%=datos[4]%>" placeholder="Institución" name="institucion"/>
+            <br/><br/>
+            <p>Género:</p> <input type="text" class="mdl-textfield__input" value="<%=datos[5]%>" placeholder="Género" name="genero"/>
+            <br/><br/>
+            
+            <input type="hidden" value="<%=nss%>" name="nss"/>
+            
+            <input type="submit" class="btn btn-primary" value="Guardar Datos" id="guardar" name="guardar"/>
+        </form>
       </main>
     </div>
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>

@@ -148,7 +148,7 @@
                     <input type="hidden" value="" name="Turno">
                     <label class="mdl-textfield__label" for="Turno">Turno</label>
                     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="Turno">
-                        <li class="mdl-menu__item" data-val="MAT">Matutino</li>
+                        <li class="mdl-menu__item" data-val="MAT" data-selected="true">Matutino</li>
                         <li class="mdl-menu__item" data-val="VES">Vespertino</li>
                     </ul>
                 </div>&nbsp; 
@@ -157,7 +157,7 @@
                     <input type="hidden" value="" name="TypeDoc">
                     <label class="mdl-textfield__label" for="TypeDoc">Tipo de doctor</label>
                     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="TypeDoc">
-                        <li class="mdl-menu__item" data-val="General">General</li>
+                        <li class="mdl-menu__item" data-val="General" data-selected="true">General</li>
                         <li class="mdl-menu__item" data-val="Dentista">Dentista</li>
                         <li class="mdl-menu__item" data-val="Pasante">Pasante</li>
                     </ul>

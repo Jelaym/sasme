@@ -43,16 +43,13 @@
         <!--
         <link rel="canonical" href="http://www.example.com/">
         -->
-
+        <link href="https://fonts.googleapis.com/css?family=Playfair+Display|Ubuntu" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
         <link rel="stylesheet" href="styles.css">
-        <style>
-
-        </style>
-    </head>
-    <body>
+         
+        
         <style>
             .demo-layout-transparent {
                 background: url('images/back.jpg') center / cover;
@@ -74,14 +71,19 @@
             }
 
         </style>
-
+    </head>
+    <body>
         <div class="demo-layout-transparent mdl-layout mdl-js-layout">
             <header class="mdl-layout__header mdl-layout__header--transparent">
             </header>
+            <div style="margin-left: 30%">
+                <h1 style="color: #005580; font-family: 'Ubuntu', sans-serif;">S.A.S.M.</h1>
+                <h3 style="color:  #00334d; font-family: 'Ubuntu', sans-serif;">Servicio Administrativo del Servicio Medico</h3>
+            </div>
             <main class="mdl-layout__content">
                 <div class="demo-card-wide mdl-card mdl-shadow--2dp">                  
                     <div class="mdl-card__title">
-                        <h2 class="mdl-card__title-text">Iniciar Sesion</h2>
+                        <h2 class="mdl-card__title-text" style="color: #c81a1a">Iniciar Sesion</h2>
                     </div>
                     <div class="mdl-card__supporting-text">
                         <form action="http://localhost:8084/ASASME/Entrada.jsp" method="post">
@@ -101,8 +103,35 @@
                             ¿Olvidó su contraseña?
                         </a>
                     </div>
+                </div>
             </main>
         </div>
+        <div style="position: absolute; top: 100%; height: 87%; width: 100%;  text-align: center; background-image: url('images/fondo_1_1.jpg')" >
+            <div style="background: rgba(0, 0, 0, 0.2); margin-left: 27%; width: 50%; border-radius: 10px;">
+                <h1 style="color: white">¿Que es el S.A.S.M?</h1>
+                <p style="font-size: 20px; color: white">Aplicación web que maneje la
+                información médica de los pacientes que
+                se atienden mediante un expediente
+                ordenado y sincronizado</p>
+                <p style="font-size: 20px; color: white">Se espera que:</p>
+                <p style="font-size: 20px; color: white">&nbsp;&nbsp;&nbsp;&nbsp;-Se espera reducir el número de archivos utilizados por
+                los doctores a una cantidad de 10 documentos por
+                expediente de paciente.</p>
+
+
+                <p style="font-size: 20px; color: white">&nbsp;&nbsp;&nbsp;&nbsp;-Facilitara la consulta de la información de pacientes
+                 con un interfaz web sencilla de manejar.</p>
+
+
+                <p style="font-size: 20px; color: white">&nbsp;&nbsp;&nbsp;&nbsp;-Llevar un mejor control sobre los expedientes de los
+                    pacientes con una interfaz web.</p><p> </p>
+            </div>
+        </div>
+        <footer class="container" style="position: absolute; top: 170%; width: 80%; left: 10%">
+            <hr class="featurette-divider">
+            <p class="float-right"><a href="#">Back to top</a></p>
+            <p>&copy; 2016-2018 OwlVrtTech SA. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        </footer>
         <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     </body>
 </html>

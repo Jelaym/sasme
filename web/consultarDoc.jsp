@@ -77,15 +77,13 @@
                     
             %>   
                 <a class="mdl-navigation__link" href="consultarDoc.jsp">Doctores</a>
-                <a class="mdl-navigation__link" href="">Bitácoras</a>
-                <a class="mdl-navigation__link" href="">Estadísticas</a>
+                <a class="mdl-navigation__link" href="graficas.jsp">Estadísticas</a>
             <%        
                 }else if(Tipo.equals("Doctor")){
             %>
                 <a class="mdl-navigation__link" href="consulta.jsp">Consulta Médica</a>
                 <a class="mdl-navigation__link" href="consultaExp.jsp">Expedientes</a>
-                <a class="mdl-navigation__link" href="">Bitácoras</a>
-                <a class="mdl-navigation__link" href="">Estadísticas</a>
+                <a class="mdl-navigation__link" href="graficas.jsp">Estadísticas</a>
             <%
                 }
             %>

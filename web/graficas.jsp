@@ -1,3 +1,8 @@
+<%-- 
+    Document   : graficas
+    Created on : 12/04/2018, 02:22:16 AM
+    Author     : Touchier
+--%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1" session="true"%>
 <%@page import="java.sql.ResultSet,Doctor.cDoctor"%>
 <%
@@ -17,6 +22,11 @@
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" sizes="192x192" href="images/android-desktop.png">
 
+    <script src="js/Chart.js" type="text/javascript"></script>
+    <script src="js/Chart.min.js" type="text/javascript"></script>
+    <link href='https://fonts.googleapis.com/css?family=Galdeano' rel='stylesheet'>
+    <link href="Estilo/cienPorCiento.css" rel="stylesheet" type="text/css"/>
+    <link href="css/csGraf.css" rel="stylesheet" type="text/css"/>
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -94,29 +104,112 @@
         </nav>
       </div>
       <main class="mdl-layout__content mdl-color--grey-100">
-          <div>
-            <div>
-                <select id="tipoUsuario" name="tipoUsuario" onChange="tipoIdentificador(this.value)">
-                    <option value="0"> -Elige Tipo de Paciente- </option>
-                    <option value="Estudiante"> Estudiante </option>
-                    <option value="Docente"> Docente </option>
-                    <option value="Externo"> Externo </option>
-                </select>
-            </div>
-            <div id="parte2" class="esconde">
-                <form name="formu" id="formu" action="buscaExp.jsp" method="post">
-                    <!--<input type="text" id="nombrePac" placeholder="Nombre de Paciente" name="nombrePac" class="" required/>-->
-                    <input type="text" id="identific" placeholder="NSS" name="nss" class="" required/>
-                    
-                    <input type="submit" name="pedidoExp" value="Buscar Expediente"/>
-                </form>
-            </div>
+          <div class='diviTitulo'>
+            <h1> Servicio Médico </h1>
         </div>
-          <a href="agregarPac.jsp"> Registrar Paciente </a>
-        <script src="js/tipoUsuario.js" type="text/javascript"></script>
-        <script src="js/Expedientes.js" type="text/javascript"></script>
+        
+        <label class="datoX2"> Mes </label>
+        
+        <div class="divi2"><canvas id="grafic2" height="250"></canvas></div>
+        <input class="botonk" type="button" value="Volver al menu" onclick="location.replace('perfilU.jsp')"/>
+        
+        <%@page import="serv.cPacientes"%>
+        <%
+            cPacientes paci= new cPacientes();
+            String[][] datos= paci.pacientesPorMes();
+            int total= 0;
+            for(int i= 0; i < datos.length; i++){
+                total+= Integer.parseInt(datos[0][i]);
+            }
+        %>
+                <div class='total'><label> Numero de Personas que han asisitdo: <%=total%> </label></div>
+        <%   
+            if(total == 0){ 
+                %>
+                    <script> alert("No han contestado el cuestionario.\nGraficas no disponibles"); </script>
+                <%
+            }
+        %>
+        <%
+            String nombres, valores;
+            nombres= valores= "";
+            for(int i= 0; i < datos.length; i++){
+                if(i == 0){
+                    nombres+= "['";
+                    valores+= "['";
+                }
+                nombres+= datos[i][0];
+                valores+= datos[i][1];
+                if((i + 1) == datos.length){
+                    nombres+= "']";
+                    valores+= "']";
+                }else{
+                    nombres+= "','";
+                    valores+= "','";
+                }
+            }
+        %>    
+            
+        <script>
+            var ctx2 = document.getElementById("grafic2").getContext('2d');
+            var myChart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: <%= valores %>,
+                    datasets: [{
+                        label: 'Correctas',
+                        backgroundColor: "rgba(42, 226, 27, 0.4)",
+                        borderColor: "rgba(60, 205, 133, 1)",
+                        highlightFill: "#1864f2",
+                        highlightStroke: "#ffffff",
+                        borderWidth: 1,
+                        data: <%= nombres %>
+                    }]
+                },
+                options: {
+                    resize: true,
+                    barValueSpacing: 20,
+                    title: {
+                        display: true,
+                        text: 'Personas que asistieron al SM',
+                        fontColor: "black",
+                        fontSize: 18
+                    },
+                    scales: {
+                        xAxes: [{
+                            gridLines:{
+                                color:"rgba(75,75,75,0.8)"
+                            },
+                            ticks:{
+                                min: 0,
+                                fontColor: "black",
+                                fontSize: 12
+                            }
+                        }],
+                        yAxes: [{
+                            gridLines:{
+                                color:"rgba(75,75,75,0.2)"
+                            },
+                            ticks:{
+                                min: 0,
+                                fontColor: "black",
+                                fontSize: 13
+                            }
+                        }]
+                    },
+                    legend: {
+                        labels:{
+                            fontColor:"black", 
+                            fontSize: 14
+                        },
+                        position: 'top'
+                    }
+                }
+            });
+        </script>
       </main>
     </div>
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   </body>
 </html>
+

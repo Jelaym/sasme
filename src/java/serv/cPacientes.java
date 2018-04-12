@@ -6,6 +6,9 @@ import java.sql.CallableStatement; /*PROCEDIMIENTOS*/
 import java.sql.Statement; /*VIEWS*/
 import java.sql.ResultSet;
 import BD.cConectaBD;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 /**
  *
  * @author David Madrigal Buendía (Touchier)
@@ -126,12 +129,6 @@ public class cPacientes {
                         System.out.println(paciente[i]);
                     }
                 }
-                /* Valida si el doctor existe o no */
-                /*if(numero == 0){
-                    System.out.println("El paciente no existe");
-                    paciente= new String[1];
-                    paciente[0]= "";
-                }*/
             }catch(SQLException e){
                 System.out.println("Error al llamar procedimiento");
             }
@@ -140,6 +137,35 @@ public class cPacientes {
         Conecta.cierra();
         
         return paciente;
+    }
+    
+    public void modificaPacienteBasico(String nombre, String institucion, String sexo, int edad, String nss){
+        cont= Conecta.Conecta();
+        
+        if(cont != null){
+            String msj= "";
+            try{
+                procedure= cont.prepareCall("{CALL modificaPacienteBasico(?,?,?,?,?)}");
+                procedure.setString(1, nombre);
+                procedure.setString(2, institucion);
+                procedure.setString(3, sexo);
+                procedure.setInt(4, edad);
+                procedure.setString(5, nss);
+                
+                procedure.execute();
+                /*resul= procedure.getResultSet();
+                
+                while(resul.next()){
+                    msj= resul.getString("msj");
+                }*/
+            }catch(SQLException e){
+                System.out.println("Error al llamar procedimiento");
+            }
+            System.out.println(msj);
+        }
+        
+        cont= Conecta.cierra(cont);
+        Conecta.cierra();
     }
     
     public void modificaPaciente(String nombre, String institucion, String sexo, int edad, String nss, String tipoPaciente, String identificador){
@@ -224,6 +250,7 @@ public class cPacientes {
         String[] referencia= new String[nombreColums.length];
         String proce= "ultimoTratamientoPac";
         referencia[0]= "";
+        cont= Conecta.Conecta();
         if(cont != null){
             try{
                 procedure= cont.prepareCall("{CALL " + proce + "(?)}");
@@ -240,5 +267,37 @@ public class cPacientes {
             }
         }
         return referencia;
+    }
+    
+    public String[][] pacientesPorMes(){
+        String[] nombreColums= {"Total","Mes"};
+        String[][] datosMes= new String[1][2];
+        String proce= "pacientesPorMes";
+        cont= Conecta.Conecta();
+        datosMes[0][0]= "";
+        if(cont != null){
+            try{
+                procedure= cont.prepareCall("{CALL " + proce + "(?,?)}");
+                /*Date ant= null, sig= null;
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                try{
+                    ant= (Date) formato.parse("1/1/2017");
+                    sig= (Date) formato.parse("30/12/2018");
+                }catch(ParseException r){
+                    r.printStackTrace();
+                }*/
+                procedure.setString(1, "2017/01/01");
+                procedure.setString(2, "2018/12/30");
+                resul= procedure.executeQuery();
+                while(resul.next()){
+                    for(int i= 0; i < nombreColums.length; i++){
+                        datosMes[0][i]= resul.getString(nombreColums[i]);
+                    }
+                }
+            }catch(SQLException e){
+                System.out.println("Error al llamar procedimiento");
+            }
+        }
+        return datosMes;
     }
 }
