@@ -22,6 +22,7 @@ public class cDoctor {
     public cDoctor(){
         Conecta= new cConectaBD("servicio_medico");
         cont= null;
+        resul= null;
         procedure= null;
     }
     /*AGREGA DOCTORES*/
@@ -54,9 +55,9 @@ public class cDoctor {
                 procedure.execute();
                 resul= procedure.getResultSet();
 
-                while(resul.next()){
-                    //msj= resul.getString("msj");
-                }
+                /*while(resul.next()){
+                    msj= resul.getString("msj");
+                }*/
                 //Contacto
                 procedure= cont.prepareCall("CALL agregaContacto(?,?,?)");
                 procedure.setString(1, usuario);
@@ -169,6 +170,7 @@ public class cDoctor {
         return contactos;
     }
     /*BUSCA UN SOLO DOCTOR*/
+    
     public String[] buscaDoctor(String usuarioDoctor){
         String[] nombreColums= {"Num_Doctor","Nombre","Usuario","Dias_Laborales","Hora_Entrada",
                                             "Hora_Salida","Tipo_Doctor","Genero","Permisos"};
