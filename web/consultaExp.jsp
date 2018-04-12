@@ -38,6 +38,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
     <link rel="stylesheet" href="styles.css">
+    <link href="Estilo/reaparecer.css" rel="stylesheet" type="text/css"/>
     <style>
     #view-source {
       position: fixed;
@@ -95,12 +96,27 @@
         </nav>
       </div>
       <main class="mdl-layout__content mdl-color--grey-100">
-          <span class="text-secondary">Busca el expediente de un paciente</span>
-          <form action="GetExpediente" method="Post">
-              <input type="text" name="NSS" value="" placeholder="Ingresa su identificador"/>
-              <input type="submit" value="Buscar" name="BuscaExp" />
-          </form>
-          <a href="agregarPac.jsp">Agrega un Paciente</a>
+          <div>
+            <div>
+                <select id="tipoUsuario" name="tipoUsuario" onChange="tipoIdentificador(this.value)">
+                    <option value="0"> -Elige Tipo de Paciente- </option>
+                    <option value="Estudiante"> Estudiante </option>
+                    <option value="Docente"> Docente </option>
+                    <option value="Externo"> Externo </option>
+                </select>
+            </div>
+            <div id="parte2" class="esconde">
+                <form name="formu" id="formu" action="buscaExp.jsp" method="post">
+                    <!--<input type="text" id="nombrePac" placeholder="Nombre de Paciente" name="nombrePac" class="" required/>-->
+                    <input type="text" id="identific" placeholder="NSS" name="nss" class="" required/>
+                    
+                    <input type="submit" name="pedidoExp" value="Buscar Expediente"/>
+                </form>
+            </div>
+        </div>
+          <a href="agregarPac.jsp"> Registrar Paciente </a>
+        <script src="js/tipoUsuario.js" type="text/javascript"></script>
+        <script src="js/Expedientes.js" type="text/javascript"></script>
       </main>
     </div>
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>

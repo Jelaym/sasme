@@ -1,15 +1,15 @@
 package serv;
 
-import BD.cConectaBD;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.CallableStatement; /*PROCEDIMIENTOS*/
 import java.sql.Statement; /*VIEWS*/
 import java.sql.ResultSet;
-
+import BD.cConectaBD;
 /**
  *
  * @author David Madrigal Buendía (Touchier)
+ * @version 2.0
  */
 public class cPacientes {
     cConectaBD Conecta;
@@ -38,31 +38,6 @@ public class cPacientes {
                 procedure.setString(5, nss);
                 procedure.setString(6, tipoPaciente);
                 procedure.setString(7, identificador);
-                
-                procedure.execute();
-                resul= procedure.getResultSet();
-                
-                while(resul.next()){
-                    msj= resul.getString("msj");
-                }
-            }catch(SQLException e){
-                System.out.println("Error al llamar procedimiento");
-            }
-            System.out.println(msj);
-        }
-        cont= Conecta.cierra(cont);
-        Conecta.cierra();
-    }
-    
-    public void insertaAlergiasPaciente(String nombrePaciente, String nssPaciente, String alergia){
-        cont= Conecta.Conecta();
-        if(cont != null){
-            String msj= "";
-            try{
-                procedure= cont.prepareCall("{CALL agregaAlergiaPaciente(?,?,?)}");
-                procedure.setString(1, nombrePaciente);
-                procedure.setString(2, nssPaciente);
-                procedure.setString(3, alergia);
                 
                 procedure.execute();
                 resul= procedure.getResultSet();
@@ -127,6 +102,7 @@ public class cPacientes {
         String[] paciente= new String[nombreColums.length];
         String proce= "buscaPaciente";
         cont= Conecta.Conecta();
+        paciente[0]= "0";
         if(cont != null){
             String msj= "";
             try{
@@ -151,11 +127,11 @@ public class cPacientes {
                     }
                 }
                 /* Valida si el doctor existe o no */
-                if(numero == 0){
-                    System.out.println("El doctor no existe");
+                /*if(numero == 0){
+                    System.out.println("El paciente no existe");
                     paciente= new String[1];
-                    paciente[0]= "No existe";
-                }
+                    paciente[0]= "";
+                }*/
             }catch(SQLException e){
                 System.out.println("Error al llamar procedimiento");
             }
@@ -195,5 +171,74 @@ public class cPacientes {
         
         cont= Conecta.cierra(cont);
         Conecta.cierra();
+    }
+    /* VERSIÓN 2 -------------------------------------------------------------------------------------------------- */
+    public String[][] consultasDeUnPaciente(String nss){
+        String[] nombreColums= {"Num_Consulta","Fecha","TipoConsulta","Num_Doctor","Observaciones"};
+        String[][] consultas= new String[maxConsultaPaciente(nss)][nombreColums.length];
+        String proce= "buscaConsultasPaciente";
+        cont= Conecta.Conecta();
+        if(cont != null){
+            String msj= "";
+            try{
+                procedure= cont.prepareCall("{CALL " + proce + "(?)}");
+                procedure.setString(1, nss);
+                
+                resul= procedure.executeQuery();
+                int conta= 0;
+                while(resul.next()){
+                    for(int i= 0; i < consultas[0].length; i++){
+                        consultas[conta][i]= resul.getString(nombreColums[i]);
+                    }
+                    conta++;
+                }
+            }catch(SQLException e){
+                System.out.println("Error al llamar procedimiento");
+            }
+        }
+        return consultas;
+    }
+    public int maxConsultaPaciente(String nss){
+        String proce= "maxConsultasPaciente";
+        int max= 0;
+        cont= Conecta.Conecta();
+        if(cont != null){
+            String msj= "";
+            try{
+                procedure= cont.prepareCall("{CALL " + proce + "(?)}");
+                procedure.setString(1, nss);
+                
+                resul= procedure.executeQuery();
+                while(resul.next()){
+                    max= Integer.parseInt(resul.getString("Total"));
+                }
+            }catch(SQLException e){
+                System.out.println("Error al llamar procedimiento");
+            }
+        }
+        return max;
+    }
+    
+    public String[] ultimoTratamiento(String nss){
+        String[] nombreColums= {"Num_Plan","Num_Consulta","Fecha"};
+        String[] referencia= new String[nombreColums.length];
+        String proce= "ultimoTratamientoPac";
+        referencia[0]= "";
+        if(cont != null){
+            try{
+                procedure= cont.prepareCall("{CALL " + proce + "(?)}");
+                procedure.setString(1, nss);
+                
+                resul= procedure.executeQuery();
+                while(resul.next()){
+                    for(int i= 0; i < nombreColums.length; i++){
+                        referencia[i]= resul.getString(nombreColums[i]);
+                    }
+                }
+            }catch(SQLException e){
+                System.out.println("Error al llamar procedimiento");
+            }
+        }
+        return referencia;
     }
 }
