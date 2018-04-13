@@ -91,6 +91,31 @@ public class cDoctor {
         }
         return msj;
     }
+    public String getNombreDoctor(String usuarioDoctor){
+        String doctor= "Nombre";
+        String proce= "buscaDoctor";
+        cont= Conecta.Conecta();
+        if(cont != null){
+            String msj= "";
+            try{
+                procedure= cont.prepareCall("{CALL " + proce + "(?)}");
+                procedure.setString(1, usuarioDoctor);
+                
+                procedure.execute();
+                resul= procedure.getResultSet();
+                
+                while(resul.next()){
+                    doctor= resul.getString("Nombre");
+                }
+            }catch(SQLException e){
+                System.out.println("Error al llamar procedimiento");
+            }
+        }
+        cont= Conecta.cierra(cont);
+        Conecta.cierra();
+        
+        return doctor;
+    }
     /*TRAE TODOS LOS DOCTORES*/
     public String[][] DoctoresTotales(){
         String[][] doctores= new String[0][0]; 

@@ -29,14 +29,14 @@ div{
 .datoX2{
     position: absolute;
     top: 85%;
-    left: 49.7%;
+    left: 57.5%;
     z-index: 1;
 }
 .divi2{
     width: 45%;
     height: 70%;
     top: 15%;
-    left: 27.5%;
+    left: 35.5%;
 }
 input[type="button"]:hover{
     width: 17%;

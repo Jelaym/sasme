@@ -111,7 +111,6 @@
         <label class="datoX2"> Mes </label>
         
         <div class="divi2"><canvas id="grafic2" height="250"></canvas></div>
-        <input class="botonk" type="button" value="Volver al menu" onclick="location.replace('perfilU.jsp')"/>
         
         <%@page import="serv.cPacientes"%>
         <%
@@ -119,7 +118,7 @@
             String[][] datos= paci.pacientesPorMes();
             int total= 0;
             for(int i= 0; i < datos.length; i++){
-                total+= Integer.parseInt(datos[0][i]);
+                total+= Integer.parseInt(datos[i][0]);
             }
         %>
                 <div class='total'><label> Numero de Personas que han asisitdo: <%=total%> </label></div>
@@ -157,8 +156,8 @@
                 data: {
                     labels: <%= valores %>,
                     datasets: [{
-                        label: 'Correctas',
-                        backgroundColor: "rgba(42, 226, 27, 0.4)",
+                        label: 'Personas',
+                        backgroundColor: "rgba(80,106,118,0.8)",
                         borderColor: "rgba(60, 205, 133, 1)",
                         highlightFill: "#1864f2",
                         highlightStroke: "#ffffff",

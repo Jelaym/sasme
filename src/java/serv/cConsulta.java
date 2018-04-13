@@ -30,11 +30,11 @@ public class cConsulta {
         vista= null;
     }
     /*Datos básicos*/
-    public void insertaConsultaDatosBasicos(String nombreDoctor, String usuarioDoctor, String nombrePaciente, String nssPaciente,/* String tipoConsulta,*/ String cedulaProfesional){
+    public String insertaConsultaDatosBasicos(String nombreDoctor, String usuarioDoctor, String nombrePaciente, String nssPaciente,/* String tipoConsulta,*/ String cedulaProfesional){
         cont= Conecta.Conecta();
         String tipoConsultaL= "Normal";
+        String msj= "";
         if(cont != null){
-            String msj= "";
             try{
                 procedure= cont.prepareCall("{CALL agregaConsulta(?,?,?,?,?,?)}");
                 procedure.setString(1, nombreDoctor);
@@ -57,6 +57,7 @@ public class cConsulta {
         }
         cont= Conecta.cierra(cont);
         Conecta.cierra();
+        return msj;
     }
     /*Datos más Profundos*/
     public void insertaConsultaDatosProfundos(float peso, float talla, float perimetro, int fc, int fr, float temp, float tension, int pulso,
@@ -115,5 +116,33 @@ public class cConsulta {
         }
         cont= Conecta.cierra(cont);
         Conecta.cierra();
+    }
+    /* MBD version 3.0 */
+    public String[] buscaConsulta(String numeConsulta){
+        cont= Conecta.Conecta();
+        String[] nombreColums= {"Num_Consulta", "Nombre_Doc", "Nombre_Pac", "Peso", "Talla",
+                                    "PerimetroAbdominal", "Temp", "TipoSangre", "GrupoSanguineo",
+                                    "RH", "AgudezaVisual", "Onicomicosis", "FC", "FR"};
+        String[] datosConsulta= new String[nombreColums.length];
+        if(cont != null){
+            try{
+                procedure= cont.prepareCall("{CALL buscaPorConsulta(?)}");
+                procedure.setInt(1, Integer.parseInt(numeConsulta));
+                
+                procedure.execute();
+                resul= procedure.getResultSet();
+                
+                while(resul.next()){
+                    for(int i= 0; i < datosConsulta.length; i++){
+                        datosConsulta[i]= resul.getString(nombreColums[i]);
+                    }
+                }
+            }catch(SQLException e){
+                System.out.println("Error al llamar procedimiento");
+            }
+        }
+        cont= Conecta.cierra(cont);
+        Conecta.cierra();
+        return datosConsulta;
     }
 }

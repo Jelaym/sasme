@@ -205,7 +205,7 @@
                     <td> <%=consultaIndi%> </td>
                     <%}%>
                     <td>
-                        <input type="button" value="Descargar" class="btn btn-info" id="<%=consultasPac[0]%>consulta" name="<%=consultasPac[0]%>consulta" onClick="irConsulta(this.name)"/>
+                        <input type="button" value="Descargar" class="btn btn-info" id="<%=consultasPac[0]%>" name="<%=consultasPac[0]%>" onClick="irConsulta(this.name)"/>
                     </td>
                 </tr>
                 <%}

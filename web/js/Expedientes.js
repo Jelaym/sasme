@@ -1,6 +1,6 @@
 function irConsulta(numero){
-    numero= numero.replace("consulta","");
     alert(numero);
+    /* Aquí poner para descargar consulta */
 }
 function getGET()
 {

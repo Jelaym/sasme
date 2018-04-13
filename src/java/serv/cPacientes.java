@@ -271,7 +271,7 @@ public class cPacientes {
     
     public String[][] pacientesPorMes(){
         String[] nombreColums= {"Total","Mes"};
-        String[][] datosMes= new String[1][2];
+        String[][] datosMes= new String[mesesConPacientes("2017/01/01","2018/12/30")][2];
         String proce= "pacientesPorMes";
         cont= Conecta.Conecta();
         datosMes[0][0]= "";
@@ -289,15 +289,45 @@ public class cPacientes {
                 procedure.setString(1, "2017/01/01");
                 procedure.setString(2, "2018/12/30");
                 resul= procedure.executeQuery();
+                int u= 0;
                 while(resul.next()){
                     for(int i= 0; i < nombreColums.length; i++){
-                        datosMes[0][i]= resul.getString(nombreColums[i]);
+                        datosMes[u][i]= resul.getString(nombreColums[i]);
                     }
+                    u++;
                 }
             }catch(SQLException e){
                 System.out.println("Error al llamar procedimiento");
             }
         }
         return datosMes;
+    }
+    
+    public int mesesConPacientes(String ant, String sig){
+        String proce= "mesesConPacientes";
+        cont= Conecta.Conecta();
+        int nume= 0;
+        if(cont != null){
+            try{
+                procedure= cont.prepareCall("{CALL " + proce + "(?,?)}");
+                /*Date ant= null, sig= null;
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                try{
+                    ant= (Date) formato.parse("1/1/2017");
+                    sig= (Date) formato.parse("30/12/2018");
+                }catch(ParseException r){
+                    r.printStackTrace();
+                }*/
+                procedure.setString(1, "2017/01/01");
+                procedure.setString(2, "2018/12/30");
+                resul= procedure.executeQuery();
+                while(resul.next()){
+                    nume= Integer.parseInt(resul.getString("Meses"));
+                }
+            }catch(SQLException e){
+                System.out.println("Error al llamar procedimiento");
+            }
+        }
+        return nume;
     }
 }
